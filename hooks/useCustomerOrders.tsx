@@ -1,17 +1,14 @@
-import { Text } from 'react-native';
-import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_ORDERS } from '../graphql/queries';
 
-const CustomerOrders = () => {
-  const { data, loading, error } = useQuery<>(GET_ORDERS);
+const useCustomerOrders = (userId: string) => {
+  const { data, loading, error } = useQuery(GET_ORDERS);
   const [orders, setOrders] = useState<Order[]>([]);
 
   useEffect(() => {
-    if (loading) {
-      return <Text>Loading...</Text>;
-    }
+    if (!data) return;
 
     const orders: Order[] = data.getOrders.map(({ value }: OrderResponse) => ({
       Address: value.Address,
@@ -22,16 +19,17 @@ const CustomerOrders = () => {
       Lng: value.Lng,
       Lat: value.Lat,
       City: value.City,
+      trackingItems: value.trackingItems,
     }));
 
-    setOrders(orders);
-  }, [data]);
+    const customerOrders = orders.filter(
+      (order) => order.trackingItems.customer_id === userId
+    );
 
-  return (
-    <SafeAreaView>
-      <Text>CustomerOrders</Text>
-    </SafeAreaView>
-  );
+    setOrders(customerOrders);
+  }, [data, userId]);
+
+  return { loading, orders, error };
 };
 
-export default CustomerOrders;
+export default useCustomerOrders;

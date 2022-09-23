@@ -13,7 +13,6 @@ type Query {
     @rest(
       endpoint: "https://ups-demo-4575b-default-rtdb.firebaseio.com/customers/$id.json"
     )
-
   getCustomers: [CustomerList]
     @rest(
       endpoint: "https://ups-demo-4575b-default-rtdb.firebaseio.com/customers.json"
