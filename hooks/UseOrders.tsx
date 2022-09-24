@@ -8,9 +8,7 @@ const UseOrders = () => {
   const [orders, setOrders] = useState<Order[]>([]);
 
   useEffect((): any => {
-    if (loading) {
-      return <Text>Loading...</Text>;
-    }
+    if (!data) return;
 
     const orders: Order[] = data.getOrders.map(({ value }: OrderResponse) => ({
       Address: value.Address,
