@@ -18,7 +18,7 @@ export type OrderScreenNavigationProp = CompositeNavigationProp<
   NativeStackNavigationProp<RootStackParam>
 >;
 
-const OrderScreen = () => {
+const OrdersScreen = () => {
   const navigation = useNavigation<OrderScreenNavigationProp>();
   const tw = useTailwind();
 
@@ -69,4 +69,4 @@ const OrderScreen = () => {
   );
 };
 
-export default OrderScreen;
+export default OrdersScreen;
